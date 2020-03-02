@@ -1,5 +1,3 @@
-
-
 const init = () => {
 
     let countryButton = document.querySelector("#getCountryByName");
@@ -26,8 +24,6 @@ const callApi = () => {
 
     let search = document.getElementById("search").value;
     let searchType = document.getElementById("searchType").value;
-    console.log(search);
-    console.log(searchType);
 
     if (search.length == 0) {
         let warning = document.createElement("h2");
@@ -47,15 +43,7 @@ const callApi = () => {
             if(xhr.readyState == 4) {
 
         
-                let response = JSON.parse(xhr.responseText);
-
-                let responseSize = response.length;
-
-                console.log(responseSize);
-                console.log("Response type: " + typeof(response));
-                console.log("Response size:" + typeof(responseSize));
-                console.log(response.status);
-                console.log(response.name);
+                let response = JSON.parse(xhr.responseText);                
 
                 if ((response.status != 404) && (searchType != "code")) {
 
@@ -66,13 +54,6 @@ const callApi = () => {
         //full name, alpha code 2, alpha code 3, flag image, region, subregion, population, and a list
         // of its languages
                     for (let country of response) {
-
-                        console.log(country.name);
-                        console.log(country.alpha2Code);
-                        console.log(country.alpha3Code);
-                        console.log(country.region);
-                        console.log(country.subregion);
-                        console.log(country.population);
                         
                         let countryName = country.name;
                         let alpha2Code = country.alpha2Code;
@@ -85,8 +66,6 @@ const callApi = () => {
                         countryNames.push(countryName);
                         regionNames.push(region);
                         subregionNames.push(subregion);
-
-                        console.log(countryNames);
 
                         let countryDiv = document.createElement("div");
                         countryDiv.setAttribute("id", alpha3Code);
@@ -136,7 +115,6 @@ const callApi = () => {
                         countryInformation.appendChild(languageList);
 
                         for (let language of country.languages) {
-                            console.log(language.name);
                             let languageItem = document.createElement("li");
                             languageItem.innerHTML = language.name;
                             languageList.appendChild(languageItem);
@@ -164,9 +142,9 @@ const callApi = () => {
                     let population = response.population;
                     let flagUrl = response.flag;
 
-                    for (let language of response.languages) {
-                        console.log(language.name);
-                    }
+                    countryNames.push(countryName);
+                    regionNames.push(region);
+                    subregionNames.push(subregion);
 
                     let countryDiv = document.createElement("div");
                     countryDiv.setAttribute("id", alpha3Code);
@@ -218,7 +196,6 @@ const callApi = () => {
                     countryInformation.appendChild(languageList);
 
                     for (let language of response.languages) {
-                        console.log(language.name);
                         let languageItem = document.createElement("li");
                         languageItem.innerHTML = language.name;
                         languageList.appendChild(languageItem);
@@ -235,24 +212,18 @@ const callApi = () => {
 
                     countryDiv.appendChild(flagImage);
 
-
-
-                    console.log("looking at code");
                 } else {
                     let warning = document.createElement("h2");
                     warning.innerHTML = 'No results';
                     contentDiv.appendChild(warning);            
                 }
 
-                console.log(countryNames.length);
 
                 if(countryNames.length > 0) {
 
                     let resultShift = document.createElement("hr");
                     contentDiv.appendChild(resultShift);
 
-                    console.log(countryNames);
-                    console.log(subregionNames);
                     let countryArraySize = countryNames.length;
                     let countryTotalHeader = document.createElement("h3");
                     countryTotalHeader.innerHTML = "Total Countries Returned: " + countryArraySize;
@@ -269,8 +240,6 @@ const callApi = () => {
                     for (let i = 0; i < subregionNames.length; i++) {
                         subregionObject[subregionNames[i]] = 1 + (subregionObject[subregionNames[i]] || 0);
                     }
-
-                    console.log(subregionObject);
 
                     let regionsHeader = document.createElement("h3");
                     regionsHeader.innerHTML = "Regions:";
@@ -298,9 +267,6 @@ const callApi = () => {
                         subregionsList.appendChild(subregionName);
                     }
 
-
-                    console.log(regionObject);
-                    console.log(subregionObject);
                 }        
 
             }

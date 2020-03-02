@@ -1,6 +1,78 @@
 /*
 This css file is a placeholder. Use this or roll your own, choice is yours.
 */
+body {
+    background-color: #ebebeb;
+}
+
+select, button, input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: .9em;
+    background-color: white;
+    padding: .2em;
+    border-radius: 5px;
+}
+
+h1, h2, h3, h4, h5, label {
+    font-family: Arial, Helvetica, sans-serif;
+    color: darkblue;
+}
+
+select, button, input, label {
+    margin-top: .25em;
+    margin-bottom: .25em;
+}
+
 h1 {
-    color: red;
+    font-size: 3em;
+    margin-bottom: -.4em;
+    padding-bottom: .1em;
+}
+
+h2 {
+    font-size: 2em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+h3 {
+    margin-left: 0em;
+    font-size: 2em;
+    margin-bottom: .75em;
+}
+
+h4 {
+    margin-bottom: .5em;
+}
+
+h5 {
+    margin-left: 1em;
+}
+
+img {
+    padding-bottom: 2em;
+}
+
+li {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #021254;
+}
+
+label {
+    font-size: 1.1em;
+    padding: 1em;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+select {
+    color: #021254;
+}
+
+button{
+    color: #021254;
 }
