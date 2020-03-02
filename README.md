@@ -1,8 +1,6 @@
-# Fullstack evaluation template
+# Dan Steger, Country Search
 
-## How to use
-The files included in this repository are here to get you started by giving
-you an idea on how you might start the project.
+I used the fullstack-template to build my app.  The app should be located as listed below.
 
 To start the server open a terminal window on unix/linux based systems and change
 directory to the project root. Then execute this command:
@@ -17,9 +15,6 @@ will get an error and the server will not start.
 After starting the server go to:
 
 ```
-http://localhost:8765/index.html  
+http://localhost:8765
 ```
 
-If you setup the http server differently, please provide direction on how to start it
-in your submitted project's readme file.
-# countrySearch
