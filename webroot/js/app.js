@@ -1,3 +1,5 @@
+
+
 const init = () => {
 
     let countryButton = document.querySelector("#getCountryByName");
@@ -7,16 +9,17 @@ const init = () => {
 
 const callApi = () => {
 
-    var countryNames = [];
-    var regionNames = [];
-    var subregionNames = [];
-
     let oldNode = document.getElementById("countryContent");
     document.body.removeChild(oldNode);
 
     let node = document.createElement("div");
     node.setAttribute("id", "countryContent");
     document.body.appendChild(node);
+
+    var countryNames = [];
+    var regionNames = [];
+    var subregionNames = [];
+
 
     let contentDiv = document.getElementById("countryContent");
     let inputCheck = true;
@@ -240,21 +243,74 @@ const callApi = () => {
                     warning.innerHTML = 'No results';
                     contentDiv.appendChild(warning);            
                 }
+
+                console.log(countryNames.length);
+
+                if(countryNames.length > 0) {
+
+                    let resultShift = document.createElement("hr");
+                    contentDiv.appendChild(resultShift);
+
+                    console.log(countryNames);
+                    console.log(subregionNames);
+                    let countryArraySize = countryNames.length;
+                    let countryTotalHeader = document.createElement("h3");
+                    countryTotalHeader.innerHTML = "Total Countries Returned: " + countryArraySize;
+                    contentDiv.appendChild(countryTotalHeader);
+
+                    let regionObject = {};
+
+                    for (let i = 0; i < regionNames.length; i++) {
+                        regionObject[regionNames[i]] = 1 + (regionObject[regionNames[i]] || 0);
+                    }
+
+                    let subregionObject = {};
+                    
+                    for (let i = 0; i < subregionNames.length; i++) {
+                        subregionObject[subregionNames[i]] = 1 + (subregionObject[subregionNames[i]] || 0);
+                    }
+
+                    console.log(subregionObject);
+
+                    let regionsHeader = document.createElement("h3");
+                    regionsHeader.innerHTML = "Regions:";
+                    contentDiv.appendChild(regionsHeader);
+
+                    let regionsList = document.createElement("ul");
+                    contentDiv.appendChild(regionsList);
+
+                    for (let region in regionObject) {
+                        let regionName = document.createElement("li")
+                        regionName.innerHTML = `The count of ${region} in your search is ${regionObject[region]}`;
+                        regionsList.appendChild(regionName);
+                    }
+
+                    let subregionsHeader = document.createElement("h3");
+                    subregionsHeader.innerHTML = "Subregions:";
+                    contentDiv.appendChild(subregionsHeader);
+                    
+                    let subregionsList = document.createElement("ul");
+                    contentDiv.appendChild(subregionsList);
+
+                    for (let subregion in subregionObject) {
+                        let subregionName = document.createElement("li")
+                        subregionName.innerHTML = `The count of ${subregion} in your search is ${subregionObject[subregion]}`;
+                        subregionsList.appendChild(subregionName);
+                    }
+
+
+                    console.log(regionObject);
+                    console.log(subregionObject);
+                }        
+
             }
         }
 
         xhr.send(null);    
 
-        console.log(countryNames.length);
+    
+    
 
-    }
-
-    if(countryNames.length > 0) {
-        console.log(countryNames);
-        let countryArraySize = countryNames.length;
-        let countryArrayOutput = document.createElement("h3");
-        countryArrayOutput.innerHTML = countryArraySize;
-        contentDiv.appendChild(countryArrayOutput);
     }
 
 
