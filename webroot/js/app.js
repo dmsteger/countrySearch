@@ -1,3 +1,5 @@
+
+//creates event for callApi function
 const init = () => {
 
     let countryButton = document.querySelector("#getCountryByName");
@@ -5,8 +7,10 @@ const init = () => {
 
 }
 
+//takes user input, calls php via xhr, outputs search
 const callApi = () => {
 
+    //removes previous search content via div
     let oldNode = document.getElementById("countryContent");
     document.body.removeChild(oldNode);
 
@@ -25,6 +29,7 @@ const callApi = () => {
     let search = document.getElementById("search").value;
     let searchType = document.getElementById("searchType").value;
 
+    //validation for empty search and notice for user
     if (search.length == 0) {
         let warning = document.createElement("h2");
         warning.innerHTML = 'Please Enter a Search Term';
@@ -32,9 +37,12 @@ const callApi = () => {
         inputCheck = false;
     }
 
+
+    //if input is present make ajax call
     if (inputCheck) {
 
         let xhr = new XMLHttpRequest();
+        //pass search and search type to php via GET
         let url = "api/index.php?search=" + search + "&searchType=" + searchType;
 
         xhr.open("get", url);
@@ -45,14 +53,13 @@ const callApi = () => {
         
                 let response = JSON.parse(xhr.responseText);                
 
+                //test for 404 if no results, code search returns object so slightly different logic needed
                 if ((response.status != 404) && (searchType != "code")) {
 
                         let resultHeader = document.createElement("h2");
                         resultHeader.innerHTML = "Results (in order of population):";
                         contentDiv.appendChild(resultHeader);    
 
-        //full name, alpha code 2, alpha code 3, flag image, region, subregion, population, and a list
-        // of its languages
                     for (let country of response) {
                         
                         let countryName = country.name;
@@ -86,22 +93,22 @@ const callApi = () => {
                         countryInformation.setAttribute("id", alpha2Code);
 
                         let alpha2Line = document.createElement("li");
-                        alpha2Line.innerHTML = "Alpha 2 Code: " + alpha2Code;
+                        alpha2Line.innerHTML = "<b>Alpha 2 Code:</b> " + alpha2Code;
 
                         let alpha3Line = document.createElement("li");
-                        alpha3Line.innerHTML = "Alpha 3 Code: " + alpha3Code;
+                        alpha3Line.innerHTML = "<b>Alpha 3 Code:</b> " + alpha3Code;
 
                         let populationLine = document.createElement("li");
-                        populationLine.innerHTML = "Population: " + population;
+                        populationLine.innerHTML = "<b>Population:</b> " + population;
 
                         let regionLine = document.createElement("li");
-                        regionLine.innerHTML = "Region: " + region;
+                        regionLine.innerHTML = "<b>Region:</b> " + region;
 
                         let subregionLine = document.createElement("li");
-                        subregionLine.innerHTML = "Subregion: " + subregion;
+                        subregionLine.innerHTML = "<b>Subregion:</b> " + subregion;
 
                         let languagesLine = document.createElement("li");
-                        languagesLine.innerHTML = "Languages Spoken: ";
+                        languagesLine.innerHTML = "<b>Languages Spoken:</b>";
 
                         let languageList = document.createElement("ul");
                         languageList.setAttribute("id", alpha2Code + "LanguageList");
@@ -167,28 +174,26 @@ const callApi = () => {
                     countryInformation.setAttribute("id", alpha2Code);
 
                     let alpha2Line = document.createElement("li");
-                    alpha2Line.innerHTML = "Alpha 2 Code: " + alpha2Code;
+                    alpha2Line.innerHTML = "<b>Alpha 2 Code:</b> " + alpha2Code;
 
                     let alpha3Line = document.createElement("li");
-                    alpha3Line.innerHTML = "Alpha 3 Code: " + alpha3Code;
+                    alpha3Line.innerHTML = "<b>Alpha 3 Code:</b> " + alpha3Code;
 
                     let populationLine = document.createElement("li");
-                    populationLine.innerHTML = "Population: " + population;
+                    populationLine.innerHTML = "<b>Population:</b> " + population;
 
                     let regionLine = document.createElement("li");
-                    regionLine.innerHTML = "Region: " + region;
+                    regionLine.innerHTML = "<b>Region:</b> " + region;
 
                     let subregionLine = document.createElement("li");
-                    subregionLine.innerHTML = "Subregion: " + subregion;
+                    subregionLine.innerHTML = "<b>Subregion:</b> " + subregion;
 
                     let languagesLine = document.createElement("li");
-                    languagesLine.innerHTML = "Languages Spoken: ";
+                    languagesLine.innerHTML = "<b>Languages Spoken:</b> ";
 
                     let languageList = document.createElement("ul");
                     languageList.setAttribute("id", alpha2Code + "LanguageList");
                     languageList.setAttribute("class", "languageList");
-
-
 
                     countryInformation.appendChild(populationLine);
                     countryInformation.appendChild(alpha2Line);
@@ -204,7 +209,6 @@ const callApi = () => {
                         languageList.appendChild(languageItem);
                     }
 
-                
                     countryDiv.appendChild(countryHeading);
                     countryDiv.appendChild(countryInformation);
 
@@ -216,12 +220,13 @@ const callApi = () => {
                     countryDiv.appendChild(flagImage);
 
                 } else {
+                    //status is 404 so give no results warning to user
                     let warning = document.createElement("h2");
                     warning.innerHTML = 'No results';
                     contentDiv.appendChild(warning);            
                 }
 
-
+                //if country name array has values output bottom of page results
                 if(countryNames.length > 0) {
 
                     let resultShift = document.createElement("hr");
@@ -232,12 +237,15 @@ const callApi = () => {
                     countryTotalHeader.innerHTML = "Total Countries Returned: " + countryArraySize;
                     contentDiv.appendChild(countryTotalHeader);
 
+                    //create object for associative arrays
                     let regionObject = {};
 
+                    //loop through region array to create associative array with region counts
                     for (let i = 0; i < regionNames.length; i++) {
                         regionObject[regionNames[i]] = 1 + (regionObject[regionNames[i]] || 0);
                     }
 
+                    //same logic for subregion
                     let subregionObject = {};
                     
                     for (let i = 0; i < subregionNames.length; i++) {
