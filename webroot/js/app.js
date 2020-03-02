@@ -60,8 +60,9 @@ const callApi = () => {
                         let alpha3Code = country.alpha3Code;
                         let region = country.region;
                         let subregion = country.subregion;
-                        let population = country.population;
+                        let populationUnformatted = country.population;
                         let flagUrl = country.flag;
+                        let population = numberWithCommas(populationUnformatted);
 
                         countryNames.push(countryName);
                         regionNames.push(region);
@@ -139,8 +140,10 @@ const callApi = () => {
                     let alpha3Code = response.alpha3Code;
                     let region = response.region;
                     let subregion = response.subregion;
-                    let population = response.population;
+                    let populationUnformatted = response.population;
                     let flagUrl = response.flag;
+                    let population = numberWithCommas(populationUnformatted);
+
 
                     countryNames.push(countryName);
                     regionNames.push(region);
@@ -279,7 +282,9 @@ const callApi = () => {
 
     }
 
-
+    const numberWithCommas = (numberToFormat) => {
+        return numberToFormat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 }
 
 window.onload = init;
