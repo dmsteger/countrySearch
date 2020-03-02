@@ -46,9 +46,31 @@
 //     return $result;
 //  }
 
-    $name = $_GET['search'];
+    $searchType = $_GET['searchType'];
+    $search = $_GET['search'];
 
-    $service_url = 'https://restcountries.eu/rest/v2/name/' . $name;
+    switch ($searchType) {
+        case "name":
+
+            $service_url = 'https://restcountries.eu/rest/v2/name/' . $search;
+
+        break;
+        
+        case "fullName":
+
+            $service_url = 'https://restcountries.eu/rest/v2/name/' . $search . '?fullText=true';
+
+        break;
+
+        case "code":
+
+            $service_url = 'https://restcountries.eu/rest/v2/alpha/' . $search;
+
+        break;
+
+        default:
+            echo "Somehow a search type was not selected.";
+    }
     $curl = curl_init($service_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $curl_response = curl_exec($curl);
@@ -59,6 +81,10 @@
     }
     curl_close($curl);
     $decoded = json_decode($curl_response);
+
+    // print_r($decoded);
+
+    /*
     if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
         die('error occured: ' . $decoded->response->errormessage);
     }
@@ -67,7 +93,27 @@
     // echo gettype($decoded)."\n";
     // echo $decoded[0]->name;
 
+    */
+
+    // function sortByPopulation($a, $b)
+    // {
+    //     $a = $a['population'];
+    //     $b = $b['population'];
+
+    //     if ($a == $b) return 0;
+    //     return ($a < $b) ? -1 : 1;
+    // }
+
+    //sort decoded array by population
+    usort($decoded, function($a, $b) { //Sort the array using a user defined function
+        return $a->population > $b->population ? -1 : 1; //Compare the populations
+    }); 
+
+    // usort($decoded, sortByPopulation);
+
+    // $results = print_r($decoded, true);
+
     header('Content-type: application/json');
-    echo json_encode( $decoded );
+    echo json_encode($decoded);
 
 ?>

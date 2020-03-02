@@ -18,9 +18,11 @@ const callNameApi = () => {
     let contentDiv = document.getElementById("countryContent");
     let inputCheck = true;
 
-    let name = document.getElementById('search').value;
+    let search = document.getElementById("search").value;
+    let searchType = document.getElementById("searchType").value;
+    console.log(searchType);
 
-    if (name.length == 0) {
+    if (search.length == 0) {
         let warning = document.createElement("p");
         warning.innerHTML = 'You must enter a value';
         // document.body.appendChild(warning);
@@ -30,16 +32,33 @@ const callNameApi = () => {
 
     if (inputCheck) {
         let xhr = new XMLHttpRequest();
-        let url = "api/index.php?name=" + name;
+        let url = "api/index.php?search=" + search + "&searchType=" + searchType;
 
         xhr.open("get", url);
 
         xhr.onreadystatechange = () => {
             if(xhr.readyState == 4) {
-                let response = xhr.responseText;
+                let response = JSON.parse(xhr.responseText);
+
+
+    //full name, alpha code 2, alpha code 3, flag image, region, subregion, population, and a list
+    // of its languages
+                for (let country of response) {
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                    console.log(country.name);
+                }
+
                 let paragraph = document.createElement("p");
                 paragraph.innerHTML = response;
                 // document.body.appendChild(paragraph);
+
+                console.log(response);
                 contentDiv.appendChild(paragraph);
             }
         }
